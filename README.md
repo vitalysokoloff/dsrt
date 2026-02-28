@@ -272,34 +272,34 @@ public void generateData()  | Сгенерировать амссив dchar[][] 
 #### TUIType 
 Имя  | Номер
 ------------- | -------------
-    ghost | 0
-    box | 1
-    .. оставим номер про запас | 
-    label | 10
-    .. оставим номер про запас |
-    input | 15
-    .. оставим номер про запас |
-    button | 20
-    check | 21
-    switcher | 22
-    image | 30
+ghost | 0
+box | 1
+.. оставим номер про запас | -
+label | 10
+.. оставим номер про запас | -
+input | 15
+.. оставим номер про запас | -
+button | 20
+check | 21
+switcher | 22
+image | 30
 #### EnvironmentEventType 
 Имя  | Номер
 ------------- | -------------
-    none | 0
-    mouse | 1
-    keyboard | 2
+none | 0
+mouse | 1
+keyboard | 2
 #### KeyType 
 Имя  | Номер
 ------------- | -------------
-    none | 0
-    service | 1
-    arrows | 2
-    unicode | 3
+none | 0
+service | 1
+arrows | 2
+unicode | 3
 #### Color 
 Имя  | Номер
 ------------- | -------------
-    black| 0
+black| 0
 darkBlue| 1
 darkGreen| 2
 darkCyan| 3
@@ -318,7 +318,7 @@ white| 15
 #### Keys : ushort
 Имя  | Номер
 ------------- | -------------
-    none | 0
+none | 0
 // Стрелки |
 left  | 37
 up| 38 |
@@ -379,32 +379,32 @@ numDivide   | 111
 #### EnvironmentEvent 
 Название  | Описание
 ------------- | -------------
-    EnvironmentEventType type | Тип события
-    int x | Позиция X (мышь или каретка)
-    int y | Позиция Y (мышь или каретка)
-    bool isPressed | Состояние кнопки (нажата/отпущена)
-    KeyType keyType | Если клавиша "скрвисная" не имеет юникода, а является конвертацией хекс кода то она мышь или сервис или стрелки
-    dchar key | Символ нажатой клавиши
-    uint timestamp | 
+EnvironmentEventType type | Тип события
+int x | Позиция X (мышь или каретка)
+int y | Позиция Y (мышь или каретка)
+bool isPressed | Состояние кнопки (нажата/отпущена)
+KeyType keyType | Если клавиша "скрвисная" не имеет юникода, а является конвертацией хекс кода то она мышь или сервис или стрелки
+dchar key | Символ нажатой клавиши
+uint timestamp | 
 #### Point 
 Название  | Описание
 ------------- | -------------
-    int x | -
-    int y | -
+int x | -
+int y | -
 #### Point 
 Название  | Описание
 ------------- | -------------
-    int x | -
-    int y | -
+int x | -
+int y | -
 #### Point 
 Название  | Описание
 ------------- | -------------
-    ushort  activeTextColor | -
-    ushort  activeBgColor| -
-     ushort  inactiveTextColor | -
-    ushort  inactiveBgColor| -
-     ushort  pressedTextColor | -
-    ushort  pressedBgColor| -
+ushort  activeTextColor | -
+ushort  activeBgColor| -
+ushort  inactiveTextColor | -
+ushort  inactiveBgColor| -
+ushort  pressedTextColor | -
+ushort  pressedBgColor| -
 ### Классы:
 
 class Canvas : ICanvas  
@@ -426,12 +426,12 @@ class TUISwitcher : TUIOrigin
 ##### DsrtIO
 Название  | Описание
 ------------- | -------------
-    JSONValue toJson(Point p) | Конвертировать Point в JSON
-    JSONValue toJson(Style s)|  Конвертировать Style в JSON
+JSONValue toJson(Point p) | Конвертировать Point в JSON
+JSONValue toJson(Style s)|  Конвертировать Style в JSON
 
 ##### class DsrtIO
 Название  | Описание
 ------------- | -------------    
-    public static void saveScreen(ITUIScreen screen, string path)| Сохранить экран в файл
-    public static ITUIScreen loadScreen(string path) | Загрузить экран из файла 
-    protected static ITUI makeTUI(TUIType type, Point position, Point size, Style style, string text, bool enable, bool active)| фабрика для UI
+public static void saveScreen(ITUIScreen screen, string path)| Сохранить экран в файл
+public static ITUIScreen loadScreen(string path) | Загрузить экран из файла 
+protected static ITUI makeTUI(TUIType type, Point position, Point size, Style style, string text, bool enable, bool active)| фабрика для UI
