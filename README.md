@@ -181,7 +181,7 @@ onTypingAction // Нажатие юникод клавиш
 
 ```
 ***
-## DSRT Reference
+## Pipeline
 ![](pipeline.png)
 ***
 ## DSRT Reference
