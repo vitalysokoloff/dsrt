@@ -391,12 +391,7 @@ uint timestamp |
 ------------- | -------------
 int x | -
 int y | -
-#### Point 
-Название  | Описание
-------------- | -------------
-int x | -
-int y | -
-#### Point 
+#### Style 
 Название  | Описание
 ------------- | -------------
 ushort  activeTextColor | -
@@ -406,7 +401,6 @@ ushort  inactiveBgColor| -
 ushort  pressedTextColor | -
 ushort  pressedBgColor| -
 ### Классы:
-
 class Canvas : ICanvas  
 class Pollster : IPollster  
 class WindowsCmdEnviroment : IEnvironment  
