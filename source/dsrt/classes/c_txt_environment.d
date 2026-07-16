@@ -44,6 +44,8 @@ class TxtEnvironment : IEnvironment
         string output = res.data;
         std.file.write(_outPath, output);
     }
+
+    public void clear(){}
     
     public void setWindowSize(Point size)
     {

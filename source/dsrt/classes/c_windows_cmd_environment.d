@@ -70,6 +70,28 @@ class WindowsCmdEnviroment : IEnvironment
         WriteConsoleOutputW(hConsole, buffer.ptr, bufferSize, bufferCoord, &writeRegion);
     }
 
+    public void clear()
+    {
+        // Получаем размер окна
+        Point size = getWindowSize();
+        
+        // Создаем пустую матрицу
+        dchar[][] emptyMatrix = new dchar[][](size.y, size.x);
+        
+        // Заполняем пробелами
+        foreach (r; 0 .. size.y) {
+            emptyMatrix[r] = new dchar[](size.x);
+            foreach (c; 0 .. size.x) {
+                emptyMatrix[r][c] = ' ';
+            }
+        }
+        
+        // Рисуем пустую матрицу (белый текст на черном фоне)
+        drawMatrix(0, 0, emptyMatrix, 
+                FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE, // белый текст
+                0); // черный фон
+    }
+
     public void setWindowSize(Point size)
     {
         HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);

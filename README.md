@@ -1,4 +1,4 @@
-# DSRT - Dead Simple Rendered TUI for D lang
+# DSRT - Dead Simple Rendered TUI for D lang или D Simple rendered TUI
 ***
 DSRT - мини-фреймворк для создания быстрого Terminal UI для простых приложений.  
 Не пытается реализовать GUI в терминале. Имеет самое необходимое и достаточное.  
@@ -14,7 +14,7 @@ DSRT - мини-фреймворк для создания быстрого Term
 
 Вместо окон есть система экранов (пространств) и менеждер для работы с ними.
 ***
-*Буду честен DSRT - это по сути мой "Hello, world" на языке D. Как человек перешедший с C# в D*  
+*Буду честен DSRT - это по сути мой "Hello, world" на языке D, но переросший в итоге во фрейморк, когда я увёлкся. Как человек перешедший с C# в D*  
 *я писал в стиле C#, так как мултипарадигменый D такое позволяет.*
 ***
 ![](demo.gif)
@@ -42,8 +42,9 @@ void main() {
     IEnvironment env = new WindowsCmdEnviroment(); // Целевая среда
     Canvas canvas = new Canvas(env, Point(80, 20)); // Задаём размер окна в символах
     Pollster pollster = new Pollster(env);
+    Commander commander = new Commander(env)
     
-    TUIManager ui = new TUIManager(canvas, pollster);
+    TUIManager ui = new TUIManager(canvas, pollster, commander);
         
     ITUIScreen hello = new TUIScreen();
     ui.addScreen("hello", hello);    
@@ -211,6 +212,11 @@ alias ClickHandler = void delegate(EnvironmentEvent e)
 ------------- | -------------
 @property public void onClickAction(ClickHandler handler)  | Событие среды
 public void update()  | -
+public Point getCursorPosition() | отдаёт координаты курсора в среде
+#### ICommander
+Название  | Описание
+------------- | -------------
+public void setCursorPosition(Point position)  | устанвливает курсор в среде на указанную позицию
 #### ITUIManager
 Название  | Описание
 ------------- | -------------
@@ -429,3 +435,14 @@ JSONValue toJson(Style s)|  Конвертировать Style в JSON
 public static void saveScreen(ITUIScreen screen, string path)| Сохранить экран в файл
 public static ITUIScreen loadScreen(string path) | Загрузить экран из файла 
 protected static ITUI makeTUI(TUIType type, Point position, Point size, Style style, string text, bool enable, bool active)| фабрика для UI
+
+#update 1
+1.Добавлен метод clear в энвайромент и в кенвас
+2.Изменинена логика отрисовки. по сработке энтре и ЛКМ перерисовывается весь юай,
+а по нажатии остальных клавишь только сам ТУИЭлемент
+3.Изменено поведение каретки, если нажат бекспейс то курсор уходит влево,
+а если клавиша юникода то вправо. добавлен класс командер, 
+для отправки команд в серду
+4.изменен класс туи менедже и интерфейс, они теперь требуют к кенвасу
+и полстеру, командер
+5. В полстер интерфейс и класс добавлен метод getCursorPosition
