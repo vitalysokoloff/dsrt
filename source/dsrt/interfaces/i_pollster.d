@@ -8,4 +8,5 @@ interface IPollster
 {
     @property public void onClickAction(ClickHandler handler);
     public void update();
+    public Point getCursorPosition();
 }

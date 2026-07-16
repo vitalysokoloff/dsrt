@@ -6,7 +6,7 @@ interface IEnvironment
 {
     // Отрисовка:
     public void drawMatrix(int x, int y, dchar[][] matrix, ushort textColor, ushort bgColor); // отрисовывает в энвайромент //(UI element)
-    
+    public void clear();
     // Окно:
     public void setWindowSize(Point size);
     public Point getWindowSize();

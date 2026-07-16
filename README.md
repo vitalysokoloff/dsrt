@@ -1,4 +1,4 @@
-# DSRT - Dead Simple Rendered TUI for D lang
+# DSRT - Dead Simple Rendered TUI for D lang или D Simple rendered TUI
 ***
 DSRT - мини-фреймворк для создания быстрого Terminal UI для простых приложений.  
 Не пытается реализовать GUI в терминале. Имеет самое необходимое и достаточное.  
@@ -14,7 +14,7 @@ DSRT - мини-фреймворк для создания быстрого Term
 
 Вместо окон есть система экранов (пространств) и менеждер для работы с ними.
 ***
-*Буду честен DSRT - это по сути мой "Hello, world" на языке D. Как человек перешедший с C# в D*  
+*Буду честен DSRT - это по сути мой "Hello, world" на языке D, но переросший в итоге во фрейморк, когда я увёлкся. Как человек перешедший с C# в D*  
 *я писал в стиле C#, так как мултипарадигменый D такое позволяет.*
 ***
 ![](demo.gif)
@@ -42,8 +42,9 @@ void main() {
     IEnvironment env = new WindowsCmdEnviroment(); // Целевая среда
     Canvas canvas = new Canvas(env, Point(80, 20)); // Задаём размер окна в символах
     Pollster pollster = new Pollster(env);
+    Commander commander = new Commander(env)
     
-    TUIManager ui = new TUIManager(canvas, pollster);
+    TUIManager ui = new TUIManager(canvas, pollster, commander);
         
     ITUIScreen hello = new TUIScreen();
     ui.addScreen("hello", hello);    
@@ -211,6 +212,11 @@ alias ClickHandler = void delegate(EnvironmentEvent e)
 ------------- | -------------
 @property public void onClickAction(ClickHandler handler)  | Событие среды
 public void update()  | -
+public Point getCursorPosition() | отдаёт координаты курсора в среде
+#### ICommander
+Название  | Описание
+------------- | -------------
+public void setCursorPosition(Point position)  | устанвливает курсор в среде на указанную позицию
 #### ITUIManager
 Название  | Описание
 ------------- | -------------

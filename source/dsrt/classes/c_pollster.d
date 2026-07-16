@@ -10,7 +10,6 @@ class Pollster : IPollster
         IEnvironment _env;
         ClickHandler _clickHandler;
         
-        // Две переменные для разделения состояний по твоему совету
         bool _wasMouseButtonPressed; 
         bool[dchar] _wasKeyboardKeyPressed; 
     }
@@ -79,7 +78,7 @@ class Pollster : IPollster
 
             // Остальные клавиши
             if (e.type.keyboard) 
-            {
+            {                
                 if (e.isPressed != _wasKeyboardKeyPressed.get(e.key, false))
                 {                    
                     if (_clickHandler !is null)
@@ -100,5 +99,10 @@ class Pollster : IPollster
                 return;
             }
         }
+    }
+
+    public Point getCursorPosition()
+    {
+        return _env.getCursorPosition();
     }
 }

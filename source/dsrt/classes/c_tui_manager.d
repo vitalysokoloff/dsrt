@@ -11,6 +11,7 @@ class TUIManager : ITUIManager
     {
         ICanvas _canvas;
         IPollster _pollster;
+        ICommander _commander;
         ITUIScreen[string] _screens; // массив экранов
         ITUIScreen[] _orderedScreens; // массив для хранения экранов по порядку
         string[ITUIScreen] _screenKeys;
@@ -18,11 +19,12 @@ class TUIManager : ITUIManager
         ITUIScreen _activeScreen;
     }
 
-    this(ICanvas canvas, IPollster pollster)
+    this(ICanvas canvas, IPollster pollster, ICommander commander)
     {
         _canvas = canvas;
         _pollster = pollster;
         _pollster.onClickAction = &this.onScreenClick;
+        _commander = commander;
 
         _ghostScreen = new TUIScreen();
         
@@ -49,6 +51,7 @@ class TUIManager : ITUIManager
 
     public void draw()
     {
+        _canvas.clear();
         for (int i; i < _activeScreen.getElementCount(); i++) 
         { 
             _canvas.draw(_activeScreen.getElementByNumber(i));
@@ -140,15 +143,30 @@ class TUIManager : ITUIManager
                             else 
                             {
                                 element.onReleased(e);
-                            }
+                                if (e.key == Keys.backspace)
+                                {
+                                    Point currentPos = _pollster.getCursorPosition();
+                                    _commander.setCursorPosition(Point(currentPos.x - 1, currentPos.y));
+                                }                                
+                            }                            
                         }
                         if (e.keyType == KeyType.unicode) 
                         {
                             if (e.isPressed) 
                             {
                                 element.onPressed(e);
+                                Point currentPos = _pollster.getCursorPosition();
+                                    _commander.setCursorPosition(Point(currentPos.x + 1, currentPos.y));                                
                             }
                         }
+                        if(e.key == Keys.enter)
+                        {    
+                            draw();
+                        }
+                        else
+                        {
+                            _canvas.draw(element);
+                        }                        
                     }
                     // Логика для мыши
                     else if (e.type == EnvironmentEventType.mouse)
@@ -159,11 +177,12 @@ class TUIManager : ITUIManager
                         }
                         else 
                         {
-                            element.onReleased(e);
+                            element.onReleased(e);                            
                         }
-                    }
-                }
-                draw();
+                        draw();
+                    } 
+                    return;                   
+                }                
             }
         }
     }

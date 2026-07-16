@@ -45,6 +45,6 @@ class Canvas : ICanvas
 
     public void clear()
     {
-
+        _environment.clear();
     }
 }

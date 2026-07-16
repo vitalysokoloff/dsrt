@@ -3,6 +3,8 @@ module dsrt.pkg;
 public import dsrt.interfaces.i_environment;
 public import dsrt.interfaces.i_canvas;
 public import dsrt.interfaces.i_pollster;
+public import dsrt.interfaces.i_commander;
+
 public import dsrt.interfaces.i_tui_manager;
 public import dsrt.interfaces.i_tui_screen;
 public import dsrt.interfaces.i_tui;
@@ -12,6 +14,7 @@ public import dsrt.classes.c_windows_cmd_environment;
 public import dsrt.classes.c_txt_environment;
 public import dsrt.classes.c_canvas;
 public import dsrt.classes.c_pollster;
+public import dsrt.classes.c_commander;
 public import dsrt.classes.c_tui_manager;
 public import dsrt.classes.c_tui_screen;
 
