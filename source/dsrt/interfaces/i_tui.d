@@ -46,7 +46,8 @@ interface ITUI
     @property public void setStyle(Style style);
     @property public void setActive(bool status);    
     @property public void setEnable(bool status);
-    @property public void setPressed(bool status);    
+    @property public void setPressed(bool status);
+    @property public void setData(dchar[][] data);     
 
     public void onPressed(EnvironmentEvent e);
     public void onReleased(EnvironmentEvent e);

@@ -72,6 +72,7 @@ abstract class TUIOrigin : ITUI
     @property public void setPosition(Point position) { _position = position; }
     @property public void setText(string text) { _text = text; }
     @property public void setStyle(Style style) { _style = style; }
+    @property public void setData(dchar[][] data) { }
     @property public void setActive(bool status) 
     { 
         _isActive = status; 

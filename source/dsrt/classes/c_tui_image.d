@@ -10,6 +10,10 @@ import dsrt.pkg;
 class TUIImage : TUIOrigin
 {    
     @property override public Point getSize() { return Point(_data[0].length.to!int, _data.length.to!int); }
+    @property override  public void setData(dchar[][] data)
+    { 
+        _data = data;
+    }
     
     this(Point position = Point(0, 0), Style style = Style(0, 15, 0, 7, 0, 7), dchar[][] source = null)
     {   
