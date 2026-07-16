@@ -435,3 +435,14 @@ JSONValue toJson(Style s)|  Конвертировать Style в JSON
 public static void saveScreen(ITUIScreen screen, string path)| Сохранить экран в файл
 public static ITUIScreen loadScreen(string path) | Загрузить экран из файла 
 protected static ITUI makeTUI(TUIType type, Point position, Point size, Style style, string text, bool enable, bool active)| фабрика для UI
+
+#update 1
+1.Добавлен метод clear в энвайромент и в кенвас
+2.Изменинена логика отрисовки. по сработке энтре и ЛКМ перерисовывается весь юай,
+а по нажатии остальных клавишь только сам ТУИЭлемент
+3.Изменено поведение каретки, если нажат бекспейс то курсор уходит влево,
+а если клавиша юникода то вправо. добавлен класс командер, 
+для отправки команд в серду
+4.изменен класс туи менедже и интерфейс, они теперь требуют к кенвасу
+и полстеру, командер
+5. В полстер интерфейс и класс добавлен метод getCursorPosition
