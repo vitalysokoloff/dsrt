@@ -143,10 +143,12 @@ class TUIManager : ITUIManager
                             else 
                             {
                                 element.onReleased(e);
-                                if (e.key == Keys.backspace)
+                                if (e.key == Keys.backspace && element.isActive && element.canPressed)
                                 {
                                     Point currentPos = _pollster.getCursorPosition();
-                                    _commander.setCursorPosition(Point(currentPos.x - 1, currentPos.y));
+                                    Point newPosition = Point(currentPos.x - 1, currentPos.y);
+                                    if (newPosition.x >= element.getPosition().x)
+                                        _commander.setCursorPosition(newPosition);
                                 }                                
                             }                            
                         }
@@ -154,9 +156,14 @@ class TUIManager : ITUIManager
                         {
                             if (e.isPressed) 
                             {
-                                element.onPressed(e);
-                                Point currentPos = _pollster.getCursorPosition();
-                                    _commander.setCursorPosition(Point(currentPos.x + 1, currentPos.y));                                
+                                if (element.isActive && element.canPressed)
+                                {
+                                    element.onPressed(e);
+                                    Point currentPos = _pollster.getCursorPosition();
+                                    Point newPosition = Point(currentPos.x + 1, currentPos.y);
+                                    if (newPosition.x <= element.getPosition().x + element.getSize().x - 1)
+                                        _commander.setCursorPosition(newPosition);   
+                                }                             
                             }
                         }
                         if(e.key == Keys.enter)
