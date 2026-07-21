@@ -79,4 +79,6 @@ class TxtEnvironment : IEnvironment
     }
 
     void disableQuickEdit() {}
+    public void putText(string text){}
+    public string getText(){ return " ";}    
 }

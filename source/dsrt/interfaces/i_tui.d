@@ -47,8 +47,10 @@ interface ITUI
     @property public void setActive(bool status);    
     @property public void setEnable(bool status);
     @property public void setPressed(bool status);
-    @property public void setData(dchar[][] data);     
+    @property public void setData(dchar[][] data);  
 
+    public void changeText(string text); 
+    public void returnTextBack();    
     public void onPressed(EnvironmentEvent e);
     public void onReleased(EnvironmentEvent e);
     public bool intersect(Point target);

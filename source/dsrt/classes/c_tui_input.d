@@ -8,6 +8,7 @@ class TUIInput : TUIOrigin
     protected
     {
         dstring _dText;
+        dstring _dTextTmp;
     }
     @property override public string getText() { return _dText.to!string; }  
     
@@ -111,6 +112,19 @@ class TUIInput : TUIOrigin
                 }
             }
         }
+    }
+
+    override public void changeText(string text)
+    {
+        _dTextTmp = _dText;
+        setText(text); 
+    }
+
+    override public void returnTextBack()
+    {
+        dstring tmpBuffer = _dTextTmp;
+        _dTextTmp = _dText;
+        _dText = tmpBuffer;
     }
 
     override public void generateData()

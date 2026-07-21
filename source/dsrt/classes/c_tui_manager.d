@@ -158,11 +158,28 @@ class TUIManager : ITUIManager
                             {
                                 if (element.isActive && element.canPressed)
                                 {
-                                    element.onPressed(e);
-                                    Point currentPos = _pollster.getCursorPosition();
-                                    Point newPosition = Point(currentPos.x + 1, currentPos.y);
-                                    if (newPosition.x <= element.getPosition().x + element.getSize().x - 1)
-                                        _commander.setCursorPosition(newPosition);   
+                                    if (e.key == KeyCommands.ctrlT) //Take - берёт текст из буфера и заменяет текс активного элемента им, сохранив в тмп старый
+                                    {
+                                        string str = _pollster.getTextFromBuffer();
+                                        if (str != "")
+                                            element.changeText(str);
+                                    }
+                                    else if (e.key == KeyCommands.ctrlG) // Give отдаёт буферу текст активного элемента
+                                    {
+                                        _commander.putTextToBuffer(element.getText());
+                                    }
+                                    else if (e.key == KeyCommands.ctrlZ) //  Вернуть назад - вертает всё в зад, чистает тмп и меняет текщий тест на тот что хранится в тмп
+                                    {
+                                        element.returnTextBack();
+                                    }
+                                    else
+                                    {
+                                        element.onPressed(e);
+                                        Point currentPos = _pollster.getCursorPosition();
+                                        Point newPosition = Point(currentPos.x + 1, currentPos.y);
+                                        if (newPosition.x <= element.getPosition().x + element.getSize().x - 1)
+                                            _commander.setCursorPosition(newPosition);   
+                                    }
                                 }                             
                             }
                         }

@@ -84,3 +84,29 @@ enum Keys : ushort
     numDot      = 110,
     numDivide   = 111
 }
+
+// Для сочетаний клавишь типа Ctrl+Z
+enum KeyCommands : dchar {
+    ctrlA = 0x01,
+    ctrlB = 0x02,
+    ctrlC = 0x03,
+    ctrlD = 0x04,
+    ctrlE = 0x05,
+    ctrlF = 0x06,
+    ctrlG = 0x07,
+    ctrlK = 0x0B,
+    ctrlL = 0x0C,
+    ctrlN = 0x0E,
+    ctrlO = 0x0F,
+    ctrlP = 0x10,
+    ctrlQ = 0x11,
+    ctrlR = 0x12,
+    ctrlS = 0x13,
+    ctrlT = 0x14,
+    ctrlU = 0x15,
+    ctrlV = 0x16,
+    ctrlW = 0x17,
+    ctrlX = 0x18,
+    ctrlY = 0x19,
+    ctrlZ = 0x1A
+}
