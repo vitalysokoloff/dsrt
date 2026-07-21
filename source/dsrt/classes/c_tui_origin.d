@@ -103,6 +103,9 @@ abstract class TUIOrigin : ITUI
         } 
     }
 
+    public void changeText(string text) {}
+    public void returnTextBack() {}
+
     public void onPressed(EnvironmentEvent e) {} 
     public void onReleased(EnvironmentEvent e) {}   
 

@@ -105,4 +105,9 @@ class Pollster : IPollster
     {
         return _env.getCursorPosition();
     }
+
+    public string getTextFromBuffer()
+    {
+        return _env.getText();
+    }
 }

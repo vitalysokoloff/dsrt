@@ -72,24 +72,16 @@ class WindowsCmdEnviroment : IEnvironment
 
     public void clear()
     {
-        // Получаем размер окна
-        Point size = getWindowSize();
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        CONSOLE_SCREEN_BUFFER_INFO csbi;
+        GetConsoleScreenBufferInfo(hConsole, &csbi);
         
-        // Создаем пустую матрицу
-        dchar[][] emptyMatrix = new dchar[][](size.y, size.x);
+        DWORD written;
+        COORD topLeft = {0, 0};
+        DWORD cells = csbi.dwSize.X * csbi.dwSize.Y;
         
-        // Заполняем пробелами
-        foreach (r; 0 .. size.y) {
-            emptyMatrix[r] = new dchar[](size.x);
-            foreach (c; 0 .. size.x) {
-                emptyMatrix[r][c] = ' ';
-            }
-        }
-        
-        // Рисуем пустую матрицу (белый текст на черном фоне)
-        drawMatrix(0, 0, emptyMatrix, 
-                FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE, // белый текст
-                0); // черный фон
+        FillConsoleOutputCharacterW(hConsole, ' ', cells, topLeft, &written);
+         FillConsoleOutputAttribute(hConsole, 0, cells, topLeft, &written);
     }
 
     public void setWindowSize(Point size)
@@ -336,4 +328,99 @@ class WindowsCmdEnviroment : IEnvironment
         
         SetConsoleMode(hInput, mode);
     }
+
+    public void putText(string text) 
+    {
+        if (text.length == 0) return;
+    
+        // Открываем буфер обмена
+        if (!OpenClipboard(null))
+            return;
+        
+        // Очищаем буфер обмена
+        EmptyClipboard();
+        
+        // Конвертируем текст в UTF-16
+        import std.conv : to;
+        wstring wideText = text.to!wstring;
+        
+        // Выделяем память
+        size_t size = (wideText.length + 1) * wchar.sizeof;
+        HANDLE hMem = GlobalAlloc(GMEM_MOVEABLE, size);
+        
+        if (hMem == null)
+        {
+            CloseClipboard();
+            return;
+        }
+        
+        // Копируем текст
+        wchar* pMem = cast(wchar*)GlobalLock(hMem);
+        if (pMem == null)
+        {
+            GlobalFree(hMem);
+            CloseClipboard();
+            return;
+        }
+        
+        pMem[0 .. wideText.length] = wideText[];
+        pMem[wideText.length] = '\0';
+        
+        GlobalUnlock(hMem);
+        
+        // Помещаем в буфер обмена
+        SetClipboardData(CF_UNICODETEXT, hMem);
+        
+        // Закрываем буфер обмена
+        CloseClipboard();
+    }
+    public string getText()
+    { 
+         string result = "";
+    
+        // Открываем буфер обмена
+        if (!OpenClipboard(null))
+            return result;
+        
+        // Проверяем, есть ли в буфере текст (не картинка и не другой формат)
+        if (!IsClipboardFormatAvailable(CF_UNICODETEXT))
+        {
+            CloseClipboard();
+            return result;
+        }
+        
+        // Получаем данные из буфера обмена
+        HANDLE hMem = GetClipboardData(CF_UNICODETEXT);
+        if (hMem == null)
+        {
+            CloseClipboard();
+            return result;
+        }
+        
+        // Получаем указатель на данные
+        wchar* pMem = cast(wchar*)GlobalLock(hMem);
+        if (pMem == null)
+        {
+            CloseClipboard();
+            return result;
+        }
+        
+        // Считаем длину строки (до нулевого символа)
+        size_t len = 0;
+        while (pMem[len] != '\0')
+            len++;
+        
+        // Копируем данные из буфера в строку
+        wstring wideText = pMem[0 .. len].dup;
+        
+        // Освобождаем ресурсы
+        GlobalUnlock(hMem);
+        CloseClipboard();
+        
+        // Конвертируем UTF-16 в UTF-8
+        import std.conv : to;
+        result = wideText.to!string;
+        
+        return result;
+    }    
 }

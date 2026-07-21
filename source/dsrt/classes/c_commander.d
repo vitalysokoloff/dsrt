@@ -18,4 +18,9 @@ class Commander : ICommander
     {
         _env.setCursorPosition(position);
     }
+
+    public void putTextToBuffer(string text)
+    {
+        _env.putText(text);
+    }
 }

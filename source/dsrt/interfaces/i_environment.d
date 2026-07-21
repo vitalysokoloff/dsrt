@@ -20,4 +20,8 @@ interface IEnvironment
     public void makeCyrilic();
     public EnvironmentEvent pollEvent();
     public void disableQuickEdit(); 
+
+    //Работа с буфером:
+    public void putText(string text); // добавить текст в буфер системы
+    public string getText(); // получить текст из буфера системы
 }
