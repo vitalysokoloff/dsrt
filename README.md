@@ -191,7 +191,7 @@ onTypingAction // Нажатие юникод клавиш
 буфера системы. `ctrl+Z` вернёт предыдущее значение `text`
 ***
 ## Pipeline
-![](pipeline.png)
+![](https://raw.githubusercontent.com/vitalysokoloff/dsrt/refs/heads/main/pipeline.png)
 ***
 ## DSRT Reference
 ### Интерфейсы:
