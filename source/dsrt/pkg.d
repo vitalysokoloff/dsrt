@@ -1,3 +1,8 @@
+/*
+    DSRT - Dead Simple Rendered TUI for D lang или D Simple rendered TUI | v.0.1
+*/ 
+
+
 module dsrt.pkg;
 
 public import dsrt.interfaces.i_environment;

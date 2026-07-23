@@ -20,8 +20,7 @@ class Pollster : IPollster
         _env.disableQuickEdit();
         _wasMouseButtonPressed = false;
     }
-
-    // Тот самый метод, который требовал компилятор
+    
     @property public void onClickAction(ClickHandler handler)
     {
         _clickHandler = handler;

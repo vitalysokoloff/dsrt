@@ -15,7 +15,8 @@ class Canvas : ICanvas
     @property int getHeight() { return _environment.getWindowSize().y; }
 
     /// Params:
-    ///   enviroment = среда отрисовки
+    ///   environment = целевая среда
+    ///   windowSize = размер консоли
     this(IEnvironment environment, Point windowSize) 
     {
         _environment = environment;
@@ -24,8 +25,7 @@ class Canvas : ICanvas
         _environment.makeCyrilic();
     }
 
-    // Проверка на пустую матрицу
-
+    /// Отрисовка TUI элемента
     public void draw(ITUI element) 
     {
         element.generateData();
@@ -43,6 +43,7 @@ class Canvas : ICanvas
                     );
     }
 
+    /// Очистка консоли
     public void clear()
     {
         _environment.clear();
