@@ -1,4 +1,4 @@
-# DSRT - Dead Simple Rendered TUI for D lang или D Simple rendered TUI
+# DSRT - Dead Simple Rendered TUI for D lang или D Simple rendered TUI | version 0.1
 ***
 DSRT - мини-фреймворк для создания быстрого Terminal UI для простых приложений.  
 Не пытается реализовать GUI в терминале. Имеет самое необходимое и достаточное.  
@@ -77,21 +77,21 @@ void main() {
 }
 
 ```
-Если забыть вызвать  ui.setActive("[screen name]") - ошибки не произойдёт, будет вызван экран   
-"404(экран не найден)",
-где будет кнопка, делающая активным самый первый добавленный экран.  
-Если в TUIManager не добавлен ни один экран (ui.addScreen("[screen name]", [var name])), то кнопка  
-вернет снова экран "404(экран не найден)".
+Если забыть вызвать `ui.setActive("screen name")` - ошибки не произойдёт, будет вызван экран
+`"404(экран не найден)"`,
+где будет кнопка, делающая активным самый первый добавленный экран.
+Если в TUIManager не добавлен ни один экран `ui.addScreen("screen name", [var name])`, то кнопка
+вернет снова экран `"404(экран не найден)"`.  
 
-Обращаясь к TUIScreen или элементам по имени (ui["hello"]["btn"]) не стоит боятся ошибки Null, так как ошибки  
-не будет, при использовании неверного несуществующего имени будет возвращёт элемент "призрак", это событие
-будет отмеченно в списке ошибок, а программа продолжит работать. Узнать список полученных ошибок можно  
-обратившись к проперти TUIScreen - getElementsErrorLog, или вызвав метод saveElementsErrorLog(),  
-который сохранит список ошибок в файл logs.txt в корневой директории приложения.
+Обращаясь к TUIScreen или элементам по имени `ui["hello"]["btn"]` не стоит боятся ошибки `Null`, так как ошибки
+не будет, при использовании неверного несуществующего имени будет возвращён элемент "призрак", это событие
+будет отмечено в списке ошибок, а программа продолжит работать. Узнать список полученных ошибок можно
+обратившись к проперти `TUIScreen - getElementsErrorLog`, или вызвав метод `saveElementsErrorLog()`,
+который сохранит список ошибок в файл logs.txt в корневой директории приложения.  
 
-TUIScreen можно сохранить в JSON - DsrtIO.saveScreen([screen name], "path"), для последущей загрузки интерфейса  
-из файла, так же подобный JSON можно создать в ручную. Загрузка экрана из файла позволит редактировать UI, не  
-перекомпилируя приложение, так как в приложении останется только логика элементов экрана.  
+TUIScreen можно сохранить в JSON - `DsrtIO.saveScreen("screen name", "path")`, для последующей загрузки интерфейса
+из файла, так же подобный JSON можно создать в ручную. Загрузка экрана из файла позволит редактировать UI, не
+перекомпилируя приложение, так как в приложении останется только логика элементов экрана.
 
 ```
 
@@ -102,7 +102,9 @@ void main() {
     IEnvironment env = new WindowsCmdEnviroment();
     Canvas canvas = new Canvas(env, Point(80, 20)); 
     Pollster pollster = new Pollster(env);
-    TUIManager ui = new TUIManager(canvas, pollster);
+    Commander commander = new Commander(env)
+    
+    TUIManager ui = new TUIManager(canvas, pollster, commander);
     
     ui.addScreen("hello", DsrtIO.loadScreen("hello.json")); // Загрузка экрана из файла
 
@@ -157,12 +159,12 @@ getElementsErrorLog или saveElementsErrorLog().
 }
 ]
 ```
-Параметры name и type являются обязательными, если их не будет, то объект не будет создан, если же будет  
+Параметры `name` и `type` являются обязательными, если их не будет, то объект не будет создан, если же будет  
 использован не валидный тип ui, то элемент так же не будет создан. Если не задать position, то элемент  
-будет создан в координатах Point(0, 0), то есть в верхнем левом углу. Параметр size и вовсе не нужен  
-для некоторых элементов, поскольку там он создаётся автоматически. Если не задать параметр style, то будет  
-применён стиль по умолчанию к элементу.Если будет не задан text, то text элемента будет равен name.  
-Если не задать isEnable и isActive, то эти параметры по умолчанию буду true.  
+будет создан в координатах `Point(0, 0)`, то есть в верхнем левом углу. Параметр `size` и вовсе не нужен  
+для некоторых элементов, поскольку там он создаётся автоматически. Если не задать параметр `style`, то будет  
+применён стиль по умолчанию к элементу.Если будет не задан `text`, то `text` элемента будет равен `name`.  
+Если не задать `isEnable` и `isActive`, то эти параметры по умолчанию буду `true`.  
 
 События элементов:
 ```
@@ -181,6 +183,12 @@ onAnyServiesKeyReleasedAction // Аналогично для прочих слу
 onTypingAction // Нажатие юникод клавиш
 
 ```
+Поддержка для сочетания клавиш типа Ctrl+Z
+Для TUI элементов которые `isAcrive` и `canPressed` есть возможность обработки
+нажития клавиш в сочетании с `ctrl`, подробный список приведён в разделе `Энумы` в частности в `KeyCommands`.
+Уже реализована возможность копировать в буфер системы и забирать из него сочетанием `ctrl+G` и `ctrl+T` соответственно.
+Например в TUIInput `ctrl+G` скопирует содержимое `text` в буфер системы, а `ctrl+T` заменит содержимое `text` в `TUIInput` на содержимое
+буфера системы. `ctrl+Z` вернёт предыдущее значение `text`
 ***
 ## Pipeline
 ![](pipeline.png)
@@ -206,6 +214,9 @@ public Point getCursorPosition() | -
 public void makeCyrilic()  | Задать вывод кирилицы
 public EnvironmentEvent pollEvent() | Получить события среды
 public void disableQuickEdit() | Отключить режим быстрого редактирования среды
+//Работа с буфером: |
+public void putText(string text) | добавить текст в буфер системы
+public string getText() | получить текст из буфера системы
 #### IPollster
 alias ClickHandler = void delegate(EnvironmentEvent e)
 Название  | Описание
@@ -213,10 +224,12 @@ alias ClickHandler = void delegate(EnvironmentEvent e)
 @property public void onClickAction(ClickHandler handler)  | Событие среды
 public void update()  | -
 public Point getCursorPosition() | отдаёт координаты курсора в среде
+public string getTextFromBuffer() | -
 #### ICommander
 Название  | Описание
 ------------- | -------------
 public void setCursorPosition(Point position)  | устанвливает курсор в среде на указанную позицию
+public void putTextToBuffer(string text) | -
 #### ITUIManager
 Название  | Описание
 ------------- | -------------
@@ -271,6 +284,8 @@ alias TUIEventHandler = void delegate(EnvironmentEvent e)
 @property public void setEnable(bool status)  | -
 @property public void setPressed(bool status)  | -
 @property public void setData(dchar[][] data)  | -
+public void changeText(string text) | Для замены text с сохранением предыдущего значения в буфер элемента
+public void returnTextBack() |  вернуть текст из временого буфера элемента (заменить text обратно)
 public void onPressed(EnvironmentEvent e)  | -
 public void onReleased(EnvironmentEvent e)  | -
 public bool intersect(Point target)  | Полверить пересекается ли элемент с точкой (кареткой например)
@@ -382,6 +397,33 @@ numPlus | 107
 numMinus| 109
 numDot  | 110
 numDivide   | 111
+
+#### KeyCommands : dchar
+Имя  | Номер
+// Для сочетаний клавишь типа Ctrl+Z | -
+------------- | -------------
+ctrlA | 0x01
+ctrlB | 0x02
+ctrlC | 0x03
+ctrlD | 0x04
+ctrlE | 0x05
+ctrlF | 0x06
+ctrlG | 0x07
+ctrlK | 0x0B
+ctrlL | 0x0C
+ctrlN | 0x0E
+ctrlO | 0x0F
+ctrlP | 0x10
+ctrlQ | 0x11
+ctrlR | 0x12
+ctrlS | 0x13
+ctrlT | 0x14
+ctrlU | 0x15
+ctrlV | 0x16
+ctrlW | 0x17
+ctrlX | 0x18
+ctrlY | 0x19
+ctrlZ | 0x1A
 ### Структуры:
 #### EnvironmentEvent 
 Название  | Описание
@@ -410,6 +452,7 @@ ushort  pressedBgColor| -
 ### Классы:
 class Canvas : ICanvas  
 class Pollster : IPollster  
+class Commander : ICommander
 class WindowsCmdEnviroment : IEnvironment  
 class TxtEnvironment : IEnvironment  
 class TUIManager : ITUIManager  
@@ -436,14 +479,3 @@ JSONValue toJson(Style s)|  Конвертировать Style в JSON
 public static void saveScreen(ITUIScreen screen, string path)| Сохранить экран в файл
 public static ITUIScreen loadScreen(string path) | Загрузить экран из файла 
 protected static ITUI makeTUI(TUIType type, Point position, Point size, Style style, string text, bool enable, bool active)| фабрика для UI
-
-#update 1
-1.Добавлен метод clear в энвайромент и в кенвас
-2.Изменинена логика отрисовки. по сработке энтре и ЛКМ перерисовывается весь юай,
-а по нажатии остальных клавишь только сам ТУИЭлемент
-3.Изменено поведение каретки, если нажат бекспейс то курсор уходит влево,
-а если клавиша юникода то вправо. добавлен класс командер, 
-для отправки команд в серду
-4.изменен класс туи менедже и интерфейс, они теперь требуют к кенвасу
-и полстеру, командер
-5. В полстер интерфейс и класс добавлен метод getCursorPosition

@@ -19,6 +19,11 @@ class TUIManager : ITUIManager
         ITUIScreen _activeScreen;
     }
 
+    /// 
+    /// Params:
+    ///   canvas = класс для отрисовки в целевую среду
+    ///   pollster = класс для опроса целевой среды
+    ///   commander = класс для отправки команд в целевую среду
     this(ICanvas canvas, IPollster pollster, ICommander commander)
     {
         _canvas = canvas;
