@@ -74,9 +74,8 @@ class Pollster : IPollster
                 }
                 return; // Поглощаем событие, чтобы оно не улетело в ClickHandler
             }
-
+            else 
             // Остальные клавиши
-            if (e.type.keyboard) 
             {                
                 if (e.isPressed != _wasKeyboardKeyPressed.get(e.key, false))
                 {                    
